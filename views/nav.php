@@ -12,16 +12,22 @@
     //assignation of $navigations list
     foreach ($pages_ as $page_)  {
         if(strstr($current_page,strtolower($page_)) || (strstr($current_page,'index') && $page_=='Home'))
-            array_push($navigations,'.<li class="current"><a style="color:#c0392b;" href="'.strtolower($page_).'.php">'.$page_.'</a></li>');
+            if($page_=='Home')
+                array_push($navigations,'.<li class="current"><a style="color:#c0392b;" href="index.php">'.$page_.'</a></li>');
+            else
+                array_push($navigations,'.<li class="current"><a style="color:#c0392b;" href="'.strtolower($page_).'.php">'.$page_.'</a></li>');
         else
-            array_push($navigations,'.<li><a href="'.strtolower($page_).'.php">'.$page_.'</a></li>');
+            if($page_=='Home')
+                array_push($navigations,'.<li><a href="index.php">'.$page_.'</a></li>');
+            else
+                array_push($navigations,'.<li><a href="'.strtolower($page_).'.php">'.$page_.'</a></li>');
     }
 
     //using function to format array
     printf_array(
         '<nav class="nav">
             <div class="container">
-                <h1 class="logo"><a href="index.html" >ChatApp</a></h1>                            
+                <h1 class="logo"><a href="index.html" >ChatApp</a></h1>                          
                 <ul>
                     %s
                     %s

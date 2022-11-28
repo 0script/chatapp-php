@@ -7,3 +7,26 @@ CREATE TABLE users (
   password varchar(255) not null,
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE GROUPCHAT TABLE
+CREATE TABLE groupchatmsg (
+  msg_id int not null auto_increment primary key,
+  send_by int ,
+  username varchar(25) not null,
+  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  message varchar(500) not null,
+  FOREIGN KEY (send_by) REFERENCES users(user_id)
+);
+
+//insert message to timestamp
+INSERT INTO groupchatmsg(send_by,username,message) VALUE(
+  3,
+  "levy00",
+  'Premier message'
+);
+
+INSERT INTO groupchatmsg(send_by,username,message) VALUE(
+  4,
+  "karma",
+  'Second message'
+);

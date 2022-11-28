@@ -35,16 +35,20 @@
                 $statement->bind_param("sss",$username,$email,$password);
                 $statement->execute();
                 
+                //set session variable
+                $_SESSION['user']=$username;
+                
                 $response_['message']='Account Created Succeffully';
                 $response_['type']='success';
             }
 
-            echo json_encode($response_);
+
         }
     
     }else{
-        $response_['message']=$row_['username'];
+        $response_['message']='Registration Failed , fill the form properly!!';
         $response_['type']='success';
-        echo 'Registration Failed , fill the form properly!!';
     }
+
+    echo json_encode($response_);
 ?>

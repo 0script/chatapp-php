@@ -107,19 +107,25 @@
                 if(validateUsername(username) && validateEmail(email)){
 
                     let obj=`username=${username}&email=${email}&password=${password}`;
+                    let url_success=window.location.protocol+'//www.'+window.location.hostname+'/index.php?info=registrationOK';
                     let xmlhttp=new XMLHttpRequest();
 
 					console.log('sending post request');
 					xmlhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
 
-                            //const obj=JSON.parse(this.responseText);
+                            const obj=JSON.parse(this.responseText);
                             console.log('response text : '+this.responseText)
-                            // console.log('response json : '+(this.responseText));
-                            // console.log('object '+obj.message);
-                            // console.log('object '+obj.type);
-                            // document.querySelector('div#php-error');
-                            // createNotification(obj.message,obj.type);
+                            console.log('response json : '+(this.responseText));
+                            
+                            createNotification(obj.message,obj.type);
+                            if(obj.type=='success'){
+                                //redirect to the home page
+                                setTimeout(() => {
+                                    console.log(url_success);
+                                    window.location.href=url_success;
+                                }, 2999);
+                            }
 						}
 					};
 
