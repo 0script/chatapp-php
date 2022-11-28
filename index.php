@@ -63,6 +63,8 @@
                                     echo "registration was OK";
                                 }else if($_GET['info']=='logoutOK'){
                                     echo "logout was OK";
+                                }else if($_GET['sendedOK']){
+                                    echo "The message was sent";
                                 }
                             }else{
                                 echo " Welcome to the chat";
@@ -185,6 +187,22 @@
             }, 2000);
 
         });
+        
+        function createNotification(message_=null,type_=null){
+                /* create notification message */
+                const notification=document.createElement('div');
+
+                notification.classList.add('notification');
+                notification.classList.add(type_?type_:'info');
+                notification.innerHTML=message_;
+
+                document.querySelector('div.notification-container').appendChild(notification);
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+
+        }
 
         function sendmessage(){
                 
@@ -194,27 +212,27 @@
                 if(message!=''){
 
                     let obj=`message=${message}&receiver=${receiver}`;
-                    let url_success=window.location.protocol+'//www.'+window.location.hostname+'/index.php?info=sendedOK';
+                    let url_success=window.location.protocol+'//'+window.location.hostname+'/index.php?info=sendedOK';
                     let xmlhttp=new XMLHttpRequest();
 
 					console.log('sending post request');
 					xmlhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
 
-                            // const obj=JSON.parse(this.responseText);
+                            const obj=JSON.parse(this.responseText);
                             // console.log('response text : '+this.responseText)
                             // console.log('response json : '+(this.responseText));
                             
                             console.log(this.responseText);
 
-                            // createNotification(obj.message,obj.type);
-                            // if(obj.type=='success'){
-                            //     //redirect to the home page
-                            //     setTimeout(() => {
-                            //         console.log(url_success);
-                            //         window.location.href=url_success;
-                            //     }, 2999);
-                            // }
+                            createNotification(obj.message,obj.type);
+                            if(obj.type=='success'){
+                                //redirect to the home page
+                                setTimeout(() => {
+                                    console.log(url_success);
+                                    window.location.href=url_success;
+                                }, 2999);
+                            }
 						}
 					};
 
