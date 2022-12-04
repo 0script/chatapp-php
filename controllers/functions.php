@@ -1,8 +1,6 @@
 <?php
 
-    session_start();   
-    //include('./db.php');
-    // include 'db.php';
+    session_start();
     
     function printf_array($format, $arr){ 
         return call_user_func_array('printf', array_merge((array)$format, $arr)); 
@@ -45,6 +43,7 @@
                         $response_['data']=array('data'=>$data,'result'=>$results,'mysqlerrors'=>$conn->error);
                     }
 
+                    $_SESSION['chat']='groupchat';
                     echo json_encode($response_);
                 }
                 
@@ -82,87 +81,77 @@
                         }
     
                         //array_reverse($response_['data']);
-    
                         $response_['type']='success';
-                        echo json_encode($response_);
                     }else{
                         $response_['type']='error';
                         $response_['data']=array('data'=>$data,'result'=>$results,'mysqlerrors'=>$conn->error);
+                        
+                    }
+                    $_SESSION['chat']='sendedmsg';
+                    echo json_encode($response_);
+                }
+
+            }else if($chatname==='inboxesmsg'){
+                
+                $sender=$_SESSION['user'];
+                //get the user id
+                $statement=$conn->prepare("SELECT `user_id` FROM `users` WHERE`username`=?");
+                $statement->bind_param("s",$sender);
+                $statement->execute();
+
+                $sended_by=$statement->get_result();
+                $row=$sended_by->fetch_assoc();
+
+                if($row!=null){
+                    
+                    $sended_by_id=$row['user_id'];
+
+                    $statement=$conn->prepare(
+                        'SELECT `sender_username`,
+                            `sended_date`,
+                            `message` 
+                            FROM privatemsg
+                            WHERE send_to=?
+                            ORDER BY sended_date
+                        '
+                    );
+                    
+                    
+                    if($statement->bind_param('i',$sended_by_id) && $statement->execute()){
+                        
+                        //we get the groupchat message
+                        $results=$statement->get_result();
+                        //$data=$results->fetch_all(MYSQLI_ASSOC);
+                        $response_=[];
+                        $response_['type']='';
+                        $response_['data']=[];
+        
+                        if($results){
+                            foreach($results as $row){
+                                array_push($response_['data'],array(
+        
+                                    'username'=>$row['sender_username'],
+                                    'created_date'=>$row['sended_date'],
+                                    'message'=>$row['message']
+                                ));
+                            }
+        
+                            //array_reverse($response_['data']);
+        
+                            $response_['type']='success';
+                        }else{
+                            $response_['type']='error';
+                            $response_['data']=array('data'=>$data,'result'=>$results,'mysqlerrors'=>$conn->error);
+                        }
+                        $_SESSION['chat']='inboxesmsg';
                         echo json_encode($response_);
                     }
                 }
 
             }
 
-            
-        
         }
-
-        // if($chatname=='groupchat'){
-            
-        //     $parametre_='created_date';
-        //     $statement=$conn->prepare('SELECT * FROM `groupchatmsg` ORDER BY ? DESC');
-            
-        //     if(
-        //         $statement &&
-        //         $statement->bind_param('s',$parametre_) &&
-        //         $statement->execute()
-        //     ){
-        //         //we get the groupchat message
-        //         $results=$statement->get_result();
-        //         $data=$results->fetch_all(MYSQLI_ASSOC);
-        //         $response_=[];
-        //         $response_['type']='';
-        //         $response_['data']=[];
-
-        //         if($data){
-        //             foreach($results as $row){
-        //                 array_push($response_['data'],array(
-
-        //                     'username'=>$row['username'],
-        //                     'created_date'=>$row['created_date'],
-        //                     'message'=>$row['message']
-        //                 ));
-
-        //             }
-
-        //             $response_['type']='success';
-
-        //         }else{
-        //             $response_['type']='error';
-        //             $response_['data']=array('data'=>$data,'result'=>$results,'mysqlerrors'=>$conn->error);
-        //         }
-
-        //         echo json_encode($response_);
-                
-        //         // if($data){
-        //         //     foreach($data as $row){
-        //         //         foreach($results as $row){
-                                        
-        //         //             echo '
-        //         //                 <div class="message-box">
-                
-        //         //                     <h5>'.$row['username'].'<span>'.$row['created_date'].'<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-        //         //                         <p>'.$row['message'].'</p>
-        //         //                     </div>
-        //         //             ';
-        //         //         }
-        //         //     }        
-        //         // }else{
-        //         //     echo <<<EOF
-        //         //             <div class="message-box">
-
-        //         //                 <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-        //         //                 <p>
-        //         //                     WOW SUCH AN EMPTY PLACE !!!
-        //         //                 </p>
-        //         //             </div>
-        //         //     EOF;
-
-        //         // }
-
-        //     }
-        // }
+    
     }
 
     if($_SERVER['REQUEST_METHOD']==='POST'){

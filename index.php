@@ -91,68 +91,9 @@
     </div>
 
     <section class="container content">
-            <?php
-                if(isset($_SESSION['chat'])){
-                    
-                    // if($_SESSION['chat']=='groupchat'){
-                        
-                    //     $parametre_='created_date';
-                    //     $statement=$conn->prepare('SELECT * FROM `groupchatmsg` ORDER BY ? DESC');
-                    //     if(
-                    //         $statement &&
-                    //         $statement->bind_param('s',$parametre_) &&
-                    //         $statement->execute()
-                    //     ){
-                    //         //we get the groupchat message
-                    //         $results=$statement->get_result();
-                    //         $data=$results->fetch_all(MYSQLI_ASSOC);
-                    //         if($data){
-                    //             foreach($data as $row){
-                    //                 foreach($results as $row){
-                                        
-                    //                     echo '
-                    //                         <div class="message-box">
-                
-                    //                             <h5>'.$row['username'].'<span>'.$row['created_date'].'<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                    //                                 <p>'.$row['message'].'</p>
-                    //                             </div>
-                    //                     ';
-                    //                 }
-                    //             }        
-                    //         }else{
-                    //             echo <<<EOF
-                    //                     <div class="message-box">
 
-                    //                         <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                    //                         <p>
-                    //                             WOW SUCH AN EMPTY PLACE !!!
-                    //                         </p>
-                    //                     </div>
-                    //             EOF;
-
-                    //         }
-
-                    //     }else{
-                            
-                    //         echo <<<EOF
-                    //                 <div class="message-box">
-
-                    //                     <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                    //                     <p>
-                    //                         ERRO PROCESSING {$statement} MYSQL ERROR : {$conn->error} !!!
-                    //                     </p>
-                    //                 </div>
-                    //         EOF; 
-                    //     }
-
-                    // }
-
-                    // getchatmessage();
-                }
-            ?>
     </section>
 
-    <!-- <script src="public/javascript/javascript.js"></script> -->
     <script>
         const nav=document.querySelector('.nav');
         const section=document.querySelector('section.container');
@@ -233,6 +174,16 @@
 
         });
         
+        document.querySelector('button.received-btn').addEventListener('click',()=>{
+
+            console.log('inboxes');
+            getmessagerequest('inboxesmsg');
+
+        });
+
+        //display groupchat by default
+        getmessagerequest('groupchat');
+
 
         function createNotification(message_=null,type_=null){
                 /* create notification message */
@@ -303,6 +254,9 @@
             e.preventDefault();
             sendmessage();
         });
+
+        
+
     </script>
 </body>
 </html>
