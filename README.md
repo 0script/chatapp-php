@@ -30,7 +30,7 @@ To run this app you need to have **apache** installed with **mysql** and **php**
 ```shell  
 #clone the project into your web directory eg /var/www   
 $git clone https://github.com/0script/chatapp-php
-$cd chatapp
+$cd chatapp/
 #activate apache and mysql
 $sudo systemctl start mariadb && systemctl start apache2 && systemctl status mariadb && systemctl status apache2
 #copy website configuration
