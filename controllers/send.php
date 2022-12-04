@@ -27,27 +27,53 @@
             //user exist send message
             if(isset($_POST['message'])){
 
-                //check destination
-                if($_POST['receiver']==''){
-                    //send into group
-                    // $sended_by=$conn->query("SELECT `user_id` FROM `users` WHERE username = ".$_SESSION['user']);      
-                    // $sql_query="SELECT `user_id` FROM `users` WHERE username= `$sender`";
-                    // $sended_by=$conn->query("SELECT `user_id` FROM `users` WHERE username= $sender");
 
-                    $statement=$conn->prepare("SELECT `user_id` FROM `users` WHERE`username`=?");
-                    $statement->bind_param("s",$sender);
-                    $statement->execute();
-
-                    // $result=$statement->get_result();
-                    // $row=$result->fetch_assoc();
+                $statement=$conn->prepare("SELECT `user_id` FROM `users` WHERE`username`=?");
+                $statement->bind_param("s",$sender);
+                $statement->execute();
                     
-                    $sended_by=$statement->get_result();
-                    $row=$sended_by->fetch_assoc();
+                $sended_by=$statement->get_result();
+                $row=$sended_by->fetch_assoc();
 
-                    if($row!=null){
-                        //valid username
-                        $sended_by_id=$row['user_id'];
+                if($row!=null){
+                    //valid username
+                    $sended_by_id=$row['user_id'];
 
+                    //check if there is a receiver 
+                    if($receiver!=''){
+                        //check if receiver exist
+                        $statement=$conn->prepare("SELECT `user_id` FROM `users` WHERE`username`=?");
+                        $statement->bind_param("s",$receiver);
+                        $statement->execute();
+                            
+                        $sended_to=$statement->get_result();
+                        $row=$sended_to->fetch_assoc();
+                        if($row!=null){
+  
+                            //the receiver exist send the message
+                            //insert message into the database
+                            $sended_to_id=$row['user_id'];
+
+                            if($statement=$conn->prepare("INSERT INTO `privatemsg` (`send_by`,`send_to`,`sender_username`,`message`) VALUE(?,?,?,?)")){
+                                
+                                $statement->bind_param("iiss",$sended_by_id,$sended_to_id,$sender,$message);
+                                
+                                if($statement->execute()){
+                                    $response_['message']= 'Message sent successfully to user '.$receiver;
+                                    $response_['type']='success';
+                                }else{
+                                    $response_['message']= 'Error executing the statement'.$statement;
+                                    $response_['type']='error';
+                                }                            
+                            }else{
+                                $response_['message']= 'Error with the statement failed'.$statement;
+                                $response_['type']='error';
+                            }
+                        }else{
+                            $response_['message']= 'User '.$receiver.'do not exist !!!';
+                            $response_['type']='error';
+                        }
+                    }else{
                         //insert the message into the database 
                         $statement=$conn->prepare("INSERT INTO `groupchatmsg` (`send_by`,`username`,`message`) VALUE (?,?,?)");
                         $statement->bind_param('iss',$sended_by_id,$sender,$message);
@@ -58,34 +84,18 @@
                             $response_['type']='success';
                         }else{
                             //error yet again
-                            $response_['message']= 'Error doing statement '.$statement.' with : '.$conn->error;
+                            //$response_['message']= 'Error doing statement '.$statement.' with : '.$conn->error;
+                            $response_['message']= 'Error can not process the query'.$conn->error;
                             $response_['type']='error';
                         }
-                        
 
-                    }else{
-                        $response_['message']= 'Error doing sql query query object '.$sended_by.' with : '.$conn->error;
-                        $response_['type']='error';
                     }
 
-                    // if($sended_by){
-                    //     if($sended_by->num_rows>0){
-                    //         $row=mysql_fetch_assoc($sended_by);
-                    //         $sended_by_id=$row['id'];
-
-                    //         $response_['message']= 'Success about to send ';
-                    //         $response_['type']='error';
-                            
-                    //     }else{
-                    //         $response_['message']= 'Error doing sql query'.$sql_query.' query object '.$sended_by.' with : '.$conn->error;
-                    //         $response_['type']='error';
-                    //     }
-                    // }else{
-                    //     $response_['message']= 'Error doing sql query'.$sql_query.' query object '.$sended_by.'and sender'.' with : '.$conn->error;
-                    //     $response_['type']='error';
-                    // }
-
+                }else{
+                    $response_['message']= 'Error you need to log in';
+                    $response_['type']='error';
                 }
+
             }else{
                 $response_['message']='Error can not send empty message!!';
                 $response_['type']='error';

@@ -18,6 +18,19 @@ CREATE TABLE groupchatmsg (
   FOREIGN KEY (send_by) REFERENCES users(user_id)
 );
 
+CREATE PRIVATE SENDED MSG TABLE
+CREATE TABLE privatemsg (
+  msg_id int not null auto_increment primary key,
+  send_by int,
+  send_to int,
+  sender_username varchar(25) not null,
+  sended_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  message varchar(500) not null,
+  CONSTRAINT fk_sender FOREIGN KEY (send_by) REFERENCES users(user_id),
+  CONSTRAINT fk_receiver FOREIGN KEY (send_to) REFERENCES users(user_id)
+);
+
+
 //insert message to timestamp
 INSERT INTO groupchatmsg(send_by,username,message) VALUE(
   3,
@@ -30,3 +43,4 @@ INSERT INTO groupchatmsg(send_by,username,message) VALUE(
   "karma",
   'Second message'
 );
+

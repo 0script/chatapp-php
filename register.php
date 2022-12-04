@@ -107,7 +107,7 @@
                 if(validateUsername(username) && validateEmail(email)){
 
                     let obj=`username=${username}&email=${email}&password=${password}`;
-                    let url_success=window.location.protocol+'//www.'+window.location.hostname+'/index.php?info=registrationOK';
+                    let url_success=window.location.protocol+'//'+window.location.hostname+'/index.php?info=registrationOK';
                     let xmlhttp=new XMLHttpRequest();
 
 					console.log('sending post request');

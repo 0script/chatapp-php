@@ -13,7 +13,11 @@
     //connection to database
     include_once 'controllers/db.php';
 
+    //leftover to view message sended 
+    // to se
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,8 +67,10 @@
                                     echo "registration was OK";
                                 }else if($_GET['info']=='logoutOK'){
                                     echo "logout was OK";
-                                }else if($_GET['sendedOK']){
+                                }else if($_GET['info']='sendedOK'){
                                     echo "The message was sent";
+                                }else if($_GET['info']='sendedError'){
+                                    echo "Error unable to send the message";
                                 }
                             }else{
                                 echo " Welcome to the chat";
@@ -85,82 +91,63 @@
     </div>
 
     <section class="container content">
-            <!-- <div class="message-box">
-
-                <h5>Username <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                <p>
-                        amet cursus sit amet dictum sit amet justo donec enim diam vulputate 
-                        ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris 
-                        pharetra et ultrices neque ornare aenean euismod elementum nisi quis 
-                        eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis 
-                        rhoncus urna neque viverra justo nec ultrices dui sapien eget mi proin 
-                        sed libero enim sed faucibus turpis in eu mi bibendum neque egestas 
-                        congue quisque egestas diam in arcu cursus euismod quis viverra nibh 
-                        cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare 
-                        arcu dui vivamus arcu felis bibendum ut tristique et egestas quis
-                </p>
-            </div>
-            <div class="message-box">
-
-                <h5>Username <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                <p>
-                        amet cursus sit amet dictum sit amet justo donec enim diam vulputate 
-                        ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris 
-                        pharetra et ultrices neque ornare aenean euismod elementum nisi quis 
-                        eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis 
-                        rhoncus urna neque viverra justo nec ultrices dui sapien eget mi proin 
-                        sed libero enim sed faucibus turpis in eu mi bibendum neque egestas 
-                        congue quisque egestas diam in arcu cursus euismod quis viverra nibh 
-                        cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare 
-                        arcu dui vivamus arcu felis bibendum ut tristique et egestas quis
-                </p>
-            </div>
-            <div class="message-box">
-
-                <h5>Username <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                <p>
-                        amet cursus sit amet dictum sit amet justo donec enim diam vulputate 
-                        ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris 
-                        pharetra et ultrices neque ornare aenean euismod elementum nisi quis 
-                        eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis 
-                        rhoncus urna neque viverra justo nec ultrices dui sapien eget mi proin 
-                        sed libero enim sed faucibus turpis in eu mi bibendum neque egestas 
-                        congue quisque egestas diam in arcu cursus euismod quis viverra nibh 
-                        cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare 
-                        arcu dui vivamus arcu felis bibendum ut tristique et egestas quis
-                </p>
-            </div> -->
             <?php
                 if(isset($_SESSION['chat'])){
-                    if($_SESSION['chat']=='groupchat'){
+                    
+                    // if($_SESSION['chat']=='groupchat'){
                         
-                        $results=$conn->query("SELECT * FROM `groupchatmsg` ORDER BY created_date DESC ");
+                    //     $parametre_='created_date';
+                    //     $statement=$conn->prepare('SELECT * FROM `groupchatmsg` ORDER BY ? DESC');
+                    //     if(
+                    //         $statement &&
+                    //         $statement->bind_param('s',$parametre_) &&
+                    //         $statement->execute()
+                    //     ){
+                    //         //we get the groupchat message
+                    //         $results=$statement->get_result();
+                    //         $data=$results->fetch_all(MYSQLI_ASSOC);
+                    //         if($data){
+                    //             foreach($data as $row){
+                    //                 foreach($results as $row){
+                                        
+                    //                     echo '
+                    //                         <div class="message-box">
+                
+                    //                             <h5>'.$row['username'].'<span>'.$row['created_date'].'<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
+                    //                                 <p>'.$row['message'].'</p>
+                    //                             </div>
+                    //                     ';
+                    //                 }
+                    //             }        
+                    //         }else{
+                    //             echo <<<EOF
+                    //                     <div class="message-box">
 
-                        if($results->num_rows===0){
-                            echo <<<EOF
-                                    <div class="message-box">
+                    //                         <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
+                    //                         <p>
+                    //                             WOW SUCH AN EMPTY PLACE !!!
+                    //                         </p>
+                    //                     </div>
+                    //             EOF;
 
-                                        <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                                        <p>
-                                            WOW SUCH AN EMPTY PLACE !!!
-                                        </p>
-                                    </div>
-                            EOF;
-                        }else{
-                            //HERE YOU PROCESS 
-                            foreach($results as $row){
-                                echo '
-                                    <div class="message-box">
+                    //         }
 
-                                        <h5>'.$row['username'].'<span>'.$row['created_date'].'<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
-                                        <p>'.$row['message'].'</p>
-                                    </div>
-                                ';
-                            }
+                    //     }else{
                             
-                        }
+                    //         echo <<<EOF
+                    //                 <div class="message-box">
 
-                    }//continue with else if chat==sended
+                    //                     <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
+                    //                     <p>
+                    //                         ERRO PROCESSING {$statement} MYSQL ERROR : {$conn->error} !!!
+                    //                     </p>
+                    //                 </div>
+                    //         EOF; 
+                    //     }
+
+                    // }
+
+                    // getchatmessage();
                 }
             ?>
     </section>
@@ -168,6 +155,7 @@
     <!-- <script src="public/javascript/javascript.js"></script> -->
     <script>
         const nav=document.querySelector('.nav');
+        const section=document.querySelector('section.container');
 
         window.addEventListener('scroll',fixNav);
 
@@ -178,16 +166,74 @@
                 nav.classList.remove('active');
             }
         }
-        
+
+
+        function display_message(msgs){
+
+            section.innerHTML='';
+            msgs.reverse().forEach(msg => {
+                section.innerHTML+=`
+                    <div    class="message-box">
+                        <h5>${msg.username} <span>${msg.created_date}</span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i></h5> 
+                        <p>${msg.message}</p>
+                    </div>                    
+                `;
+
+            });
+        }
+
+        function getmessagerequest(chatname){
+            
+            let xmlhttp=new XMLHttpRequest();
+            let obj=`chatname=${chatname}`;
+
+            xmlhttp.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+
+                    //console.log(this.responseText);
+                    const data=JSON.parse(this.responseText);
+                    console.log(data.type);
+                    console.log(data.data);
+
+                    if(data.type=='success'){
+                        display_message(data.data);
+                    }else{
+                        section.innerHTML=`
+                                    <div class="message-box">
+
+                                        <h5>No message <span>timestamp<span> <i title="Reply" class="fa-sharp fa-solid fa-reply"></i> </h5>
+                                        <p>
+                                            WOW SUCH AN EMPTY  PLACE !!!
+                                        </p>
+                                    </div> 
+  
+                        `;
+
+                    }
+
+                }
+            }
+
+            xmlhttp.open("POST","controllers/functions.php", true);
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send(obj);
+        }
+
         document.querySelector('button.groupchat-btn').addEventListener('click',()=>{
-            let result=<?php $_SESSION['chat']='groupchat';?>
-            console.log('reload');
-            setTimeout(() => {
-                window.location.reload(true);
-            }, 2000);
+
+            console.log('groupchat');
+            getmessagerequest('groupchat');
+
+        });
+
+        document.querySelector('button.sended-btn').addEventListener('click',()=>{
+
+            console.log('sendedmsg');
+            getmessagerequest('sendedmsg');
 
         });
         
+
         function createNotification(message_=null,type_=null){
                 /* create notification message */
                 const notification=document.createElement('div');
@@ -208,11 +254,13 @@
                 
                 let receiver=document.getElementById('sendto').value.trim();
                 let message=document.getElementById('post').value.trim();
+                console.log(receiver);
 
                 if(message!=''){
 
                     let obj=`message=${message}&receiver=${receiver}`;
-                    let url_success=window.location.protocol+'//'+window.location.hostname+'/index.php?info=sendedOK';
+                    let url_success=window.location.protocol+'//'+window.location.hostname+'/index.php?info=sendendOK';
+                    let url_error=window.location.protocol+'//'+window.location.hostname+'/index.php?info=sendedError';
                     let xmlhttp=new XMLHttpRequest();
 
 					console.log('sending post request');
@@ -220,18 +268,25 @@
 						if (this.readyState == 4 && this.status == 200) {
 
                             const obj=JSON.parse(this.responseText);
-                            // console.log('response text : '+this.responseText)
+                            // console.log('response text : '+this.responseText);
                             // console.log('response json : '+(this.responseText));
                             
                             console.log(this.responseText);
 
                             createNotification(obj.message,obj.type);
+
                             if(obj.type=='success'){
                                 //redirect to the home page
                                 setTimeout(() => {
                                     console.log(url_success);
                                     window.location.href=url_success;
-                                }, 2999);
+                                }, 1999);
+                            }else{
+
+                                setTimeout(() => {
+                                    console.log(url_error);
+                                    window.location.href=url_error;
+                                }, 1999);
                             }
 						}
 					};
