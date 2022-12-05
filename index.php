@@ -10,11 +10,6 @@
         $_SESSION['chat']='groupchat';
     }
 
-    //connection to database
-    include_once 'controllers/db.php';
-
-    //leftover to view message sended 
-    // to se
 
 ?>
 
@@ -38,8 +33,8 @@
     <div class="hero">   
         <div class="container form-container">
 
-                <form action="" class="search">
-                    <input class="field" type="text" placeholder="Search user..." />
+                <form action="search-results.php" method="get" class="search">
+                    <input class="field" type="text" name="q" id="q" placeholder="Search user..." />
                     <input class="submit" type="submit" value="Search" />
                 </form>
                 <form method="post" class="post-form">

@@ -163,10 +163,10 @@
             }else{
 
                 $response_=[];
-                $response_['type']='success';
+                $response_['type']='error';
                 $response_['data']=array(
-                    'username'=>'Log in In ',
-                    'created_date'=>'order to see message',
+                    'username'=>'Not A user',
+                    'created_date'=>'You are not a user',
                     'message'=>'You need be loged in sir !!'
                 );
                 echo json_encode($response_);
