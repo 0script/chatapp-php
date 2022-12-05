@@ -113,7 +113,8 @@
 					console.log('sending post request');
 					xmlhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
-
+                            
+                            // console.log(this.responseText);
                             const obj=JSON.parse(this.responseText);
                             console.log('response text : '+this.responseText)
                             console.log('response json : '+(this.responseText));

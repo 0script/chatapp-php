@@ -41,8 +41,7 @@
                     <textarea name="post" id="post" cols="47" rows="9" placeholder="Enter message"></textarea>
                     <input type="text" name="sendto" id="sendto" class="sendto" placeholder="Enter Receiver Username" />
                     <div class="post-form-btn-container">
-                        <button class="post-form-btn">Add Image</button>
-                        <input id="post-form-btn" class="post-form-btn" type="submit" value="Submit" />
+                        <input id="post-form-btn" class="post-form-btn" type="submit" value="Send ." />
                     </div>
                 </form>
                 <div class="presentation-text">
@@ -57,13 +56,13 @@
                             
                             if(isset($_GET['info'])){
                                 if($_GET['info']=='loginOK'){
-                                    echo "login was OK";
+                                    echo "login successful";
                                 }else if($_GET['info']=='registrationOK'){
-                                    echo "registration was OK";
+                                    echo "registration successful";
                                 }else if($_GET['info']=='logoutOK'){
                                     echo "logout was OK";
                                 }else if($_GET['info']='sendedOK'){
-                                    echo "The message was sent";
+                                    echo "The message sent successful";
                                 }else if($_GET['info']='sendedError'){
                                     echo "Error unable to send the message";
                                 }

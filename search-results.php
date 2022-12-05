@@ -88,8 +88,7 @@ function returnUsers($username){
                         <textarea name="post" id="post" cols="47" rows="9" placeholder="Enter message"></textarea>
                         <input type="text" name="sendto" id="sendto" class="sendto" placeholder="Enter Receiver Username" />
                         <div class="post-form-btn-container">
-                            <button class="post-form-btn">Add Image</button>
-                            <input id="post-form-btn" class="post-form-btn" type="submit" value="Submit" />
+                            <input id="post-form-btn" class="post-form-btn" type="submit" value="Send ." />
                         </div>
                     </form>
                     <div class="presentation-text">
